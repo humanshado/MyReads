@@ -7,7 +7,7 @@ class SearchBooks extends React.Component {
     render() {
         let searchedBooks = this.props.books;
         if (this.props.books) {
-            console.log('Props in searchbooks', searchedBooks);
+            console.log('Props in SearchBooks', searchedBooks);
         }
 
         return (

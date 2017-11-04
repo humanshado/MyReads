@@ -3,40 +3,19 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchBooks from './SearchBooks';
 import CurrentReading from './CurrentReading';
-//import WantToRead from './WantToRead';
-//import Read from './Read';
+import WantToRead from './WantToRead';
+import Read from './Read';
 
 class BooksApp extends React.Component {
   state = {
     showSearchPage: false,
-    books: [],
-    noneBooks: [],
-    currentBooks: [],
-    wantBooks: [],
-    readBooks: []
+    books: []
   }
-
-  classifyBooks = (state) => {
-    console.log('state in classifyBooks ',state)
-    state.books.map((book) => {
-        if (book.shelf === 'currentlyReading'){
-          state.currentBooks.push(book)
-        }else if(book.shelf === 'wantToRead'){
-          state.wantBooks.push(book)
-        }else if(book.shelf === 'read'){
-          state.readBooks.push(book)
-        }else{
-          state.noneBooks.push(book)
-        }
-      })
-    }
 
   componentDidMount(){
       BooksAPI.getAll().then((books) => {
         this.setState({ books: books})
-        this.classifyBooks(this.state)
       })
-
   }
 
   render() {
@@ -48,7 +27,9 @@ class BooksApp extends React.Component {
               </div>
             <div className="list-books-content">
                 <SearchBooks books={this.state.books}/>
-                <CurrentReading currentBooks={this.state.currentBooks} />
+                <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === 'currentlyReading')} />
+                <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === 'wantToRead')} />
+                <Read readBooks={this.state.books.filter((book) => book.shelf === 'read')} />
             </div>
           </div>
           <div className="open-search">
