@@ -1,20 +1,30 @@
 import React from 'react';
-import BookTop from './BookTop';
+import Book from './Book';
 
 class CurrentReading extends React.Component{
     render(){
+        let currentBooks = this.props.currentBooks;
+        if(currentBooks){
+            console.log('List of Current Books ', currentBooks);
+        }
         return(
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
-                        <li>
-                            <div className="book">
-                                <BookTop />
-                                <div className="book-title">To Kill a Mockingbird</div>
-                                <div className="book-authors">Harper Lee</div>
-                            </div>
-                        </li>
+                        {currentBooks && currentBooks.map((book) => {
+                            return (
+                                <li key={book.id}>
+                                    <Book
+                                        bookId={book.id}
+                                        bookShelf={book.shelf}
+                                        bookImage={book.imageLinks.thumbnail}
+                                        bookTitle={book.title}
+                                        bookAuthors={book.authors} />
+                                </li>
+                            )
+                        })
+                        }
                     </ol>
                 </div>
             </div>

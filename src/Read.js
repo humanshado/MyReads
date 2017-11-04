@@ -1,5 +1,5 @@
 import React from 'react';
-import BookTop from './BookTop';
+import BookShelfChanger from './BookShelfChanger';
 
 class Read extends React.Component {
     render() {

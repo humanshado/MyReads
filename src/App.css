@@ -100,7 +100,7 @@ body, .app {
 }
 
 .search-books-results {
-  padding: 80px 10px 20px;
+  padding: 80px 40px 20px;
 }
 
 /* books grid */
@@ -111,16 +111,20 @@ body, .app {
   margin: 0;
 
   display: flex;
-  justify-content: center;
+  justify-content: start;
   flex-wrap: wrap;
 }
 .books-grid li {
-  padding: 10px 15px;
+  width: 148px;
+  height: 300px;
+  padding: 5px;
   text-align: left;
+  margin-bottom: 7px;
 }
 
 .book {
-  width: 140px;
+  width: 100%;
+  height: 70%;
 }
 .book-title,
 .book-authors {
@@ -138,6 +142,17 @@ body, .app {
   height: 200px;
   display: flex;
   align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.book-bottom {
+  height: 30%;
+}
+
+.book-bottom p{
+  padding: 0;
+  margin: 0;
 }
 
 .book-shelf-changer {
