@@ -2,6 +2,11 @@ import React from 'react';
 import Book from './Book';
 
 class CurrentReading extends React.Component{ 
+
+    handleChangeShelf = (id, value) => {
+        this.props.changeShelf(id, value);
+    }
+    
     render(){
         let currentBooks = this.props.currentBooks;
         if(currentBooks){
@@ -21,7 +26,7 @@ class CurrentReading extends React.Component{
                                         bookImage={book.imageLinks.thumbnail}
                                         bookTitle={book.title}
                                         bookAuthors={book.authors}
-                                        />
+                                        submitShelf={this.handleChangeShelf}/>
                                 </li>
                             )
                         })
