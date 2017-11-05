@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import SearchBooks from './SearchBooks';
 import CurrentReading from './CurrentReading';
@@ -35,20 +36,26 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
+        <Route exact path="/" render={() => (
           <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
+            <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>
             <div className="list-books-content">
-                <SearchBooks books={this.state.books} changeShelf={this.changeShelf}/>
-                <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === 'currentlyReading')} changeShelf={this.changeShelf}/>
-                <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === 'wantToRead')} changeShelf={this.changeShelf}/>
-                <Read readBooks={this.state.books.filter((book) => book.shelf === 'read')} changeShelf={this.changeShelf}/>
+              <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === 'currentlyReading')} changeShelf={this.changeShelf} />
+              <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === 'wantToRead')} changeShelf={this.changeShelf} />
+              <Read readBooks={this.state.books.filter((book) => book.shelf === 'read')} changeShelf={this.changeShelf} />
             </div>
           </div>
-          <div className="open-search">
-            <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-          </div>    
+        )} />
+        <Route path="/search" render={() => (
+          <div className="list-books-content">
+            <SearchBooks books={this.state.books} changeShelf={this.changeShelf} />
+          </div>
+        )}/> 
+        <div className="open-search">
+          <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+        </div>   
       </div>
     )//return
   }//render
