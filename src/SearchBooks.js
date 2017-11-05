@@ -1,9 +1,12 @@
 import React from 'react';
-//import * as BooksAPI from './BooksAPI'
 import Book from './Book';
-//import BookShelfChanger from './BookShelfChanger';
 
 class SearchBooks extends React.Component {
+
+    handleChangeShelf = (id, value) => { 
+        this.props.changeShelf(id, value);
+    }
+
     render() {
         let searchedBooks = this.props.books;
         if (this.props.books) {
@@ -29,7 +32,8 @@ class SearchBooks extends React.Component {
                                         bookShelf={book.shelf}
                                         bookImage={book.imageLinks.thumbnail}
                                         bookTitle={book.title}
-                                        bookAuthors={book.authors}/>
+                                        bookAuthors={book.authors}
+                                        submitShelf={this.handleChangeShelf}/>
                                 </li>
                             )
                         })

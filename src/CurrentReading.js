@@ -1,7 +1,7 @@
 import React from 'react';
 import Book from './Book';
 
-class CurrentReading extends React.Component{
+class CurrentReading extends React.Component{ 
     render(){
         let currentBooks = this.props.currentBooks;
         if(currentBooks){
@@ -20,7 +20,8 @@ class CurrentReading extends React.Component{
                                         bookShelf={book.shelf}
                                         bookImage={book.imageLinks.thumbnail}
                                         bookTitle={book.title}
-                                        bookAuthors={book.authors} />
+                                        bookAuthors={book.authors}
+                                        />
                                 </li>
                             )
                         })

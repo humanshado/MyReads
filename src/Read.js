@@ -21,7 +21,8 @@ class Read extends React.Component {
                                         bookShelf={book.shelf}
                                         bookImage={book.imageLinks.thumbnail}
                                         bookTitle={book.title}
-                                        bookAuthors={book.authors} />
+                                        bookAuthors={book.authors} 
+                                         />
                                 </li>
                             )
                         })

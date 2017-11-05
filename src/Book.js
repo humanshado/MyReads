@@ -1,10 +1,12 @@
 import React from 'react';
-//import BookShelfChanger from './BookShelfChanger';
 
 class Book extends React.Component {
 
-    moveToShelf = (e) => {
-        console.log(e.target);
+    handleSubmitShelf = (e) => {
+        let value = e.target.value;
+        let id  = this.props.bookId;
+
+        this.props.submitShelf(id, value);
     }
 
     render() {
@@ -13,12 +15,12 @@ class Book extends React.Component {
                 <div className="book-top">
                     <div className="book-cover" style={{ width: 100 + '%', height: 193, backgroundImage: `url(${this.props.bookImage})` }}></div>
                     <div className="book-shelf-changer">
-                        <select>
+                        <select value={this.props.bookShelf} onChange={(e) => this.handleSubmitShelf(e)}>
                             <option value="none" disabled>Move to...</option>
-                            <option onClick={(e) => this.moveToShelf(e)} value="currentlyReading">Currently Reading</option>
-                            <option onClick={(e) => this.moveToShelf(e)} value="wantToRead">Want to Read</option>
-                            <option onClick={(e) => this.moveToShelf(e)} value="read">Read</option>
-                            <option onClick={(e) => this.moveToShelf(e)} value="none">None</option>
+                            <option value="currentlyReading">Currently Reading</option>
+                            <option value="wantToRead">Want to Read</option>
+                            <option value="read">Read</option>
+                            <option value="none">None</option>
                         </select>
                     </div>
                 </div>
