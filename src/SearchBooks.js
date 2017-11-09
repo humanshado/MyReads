@@ -1,11 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+//import escapeRegExp from 'escape-string-regexp';
+//import sortBy from 'sort-by';
 import Book from './Book';
 
 class SearchBooks extends React.Component {
 
+    state = {
+        searchTerm: ''
+    }
+
     handleChangeShelf = (id, value) => { 
         this.props.changeShelf(id, value);
+    }
+
+    handleSearch = (searchTerm) => {
+        //const match = new RegExp(escapeRegExp(this.state.searchTerm), 'i');
+        this.setState({ searchTerm: searchTerm })
+        this.props.searchBooks(searchTerm);
     }
 
     render() {
@@ -18,12 +30,16 @@ class SearchBooks extends React.Component {
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link
-                        exact to="/"
+                        to="/"
                         className="close-search"
                         >Close
                       </Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text" placeholder="Search by title or author" />
+                        <input 
+                        type="text" 
+                        placeholder="Search by title or author" 
+                        value={this.state.searchTerm}
+                        onChange={(e) => this.handleSearch(e.target.value)}/>
                     </div>
                 </div>
                 <div className="search-books-results">

@@ -9,7 +9,6 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    //showSearchPage: false,
     books: []
   }
 
@@ -17,6 +16,12 @@ class BooksApp extends React.Component {
       BooksAPI.getAll().then((books) => {
         this.setState({ books: books})
       })
+  }
+
+  searchBooks = (match, maxResults = 20) => {
+    BooksAPI.search(match, maxResults).then((books) => {
+      this.setState({ books: books })
+    })
   }
 
   changeShelf = (id, value) => {
@@ -50,7 +55,10 @@ class BooksApp extends React.Component {
         )} />
         <Route path="/search" render={() => (
           <div className="list-books-content">
-            <SearchBooks books={this.state.books} changeShelf={this.changeShelf} />
+            <SearchBooks 
+              books={this.state.books} 
+              searchBooks={this.searchBooks}
+              changeShelf={this.changeShelf} />
           </div>
         )}/> 
         <Link 

@@ -10,11 +10,12 @@ class Book extends React.Component {
     }
 
     render() {
+
         return (
             <div className="book">
                 <div className="book-top">
                     <div className="book-cover" style={{ width: 100 + '%', height: 193, backgroundImage: `url(${this.props.bookImage})` }}></div>
-                    <div className="book-shelf-changer">
+                    <div className="book-shelf-changer" >
                         <select value={this.props.bookShelf} onChange={(e) => this.handleSubmitShelf(e)}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
