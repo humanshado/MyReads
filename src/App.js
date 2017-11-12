@@ -1,74 +1,105 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Route, Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import SearchBooks from './SearchBooks';
 import CurrentReading from './CurrentReading';
 import WantToRead from './WantToRead';
 import Read from './Read';
-import './App.css'
+import './App.css';
 
 class BooksApp extends React.Component {
-  state = {
-    books: []
+    static propTypes = {
+      books: PropTypes.array.isRequired,
+      newBooks: PropTypes.array.isRequired,
+      makeUnique: PropTypes.func.isRequired,
+      searchBooks: PropTypes.func.isRequired,
+      handleUpdate: PropTypes.func.isRequired,
+      changeShelf: PropTypes.func.isRequired
+    }
+
+
+    state = {
+      books: [],
+      newBooks: []
+    }
+
+    componentDidMount = () => {
+        BooksAPI.getAll().then((books) => {
+          this.setState({ books: books})
+        })
+    }
+
+    makeUnique = (books) => {
+      let seen = new Set();
+      return books.filter(book => {
+        return seen.has(book.id) ? false : seen.add(book.id);
+      });
   }
 
-  componentDidMount = () => {
-      BooksAPI.getAll().then((books) => {
-        this.setState({ books: books})
+    searchBooks = (searchTerm, maxResults = 20) => {
+      let newBooks = [];
+      BooksAPI.search(searchTerm, maxResults).then((books) => {
+        newBooks = this.makeUnique(books);
+        console.log('newBooks in SearchBooks ', newBooks);
+    
+        this.setState({ newBooks: newBooks });
       })
-  }
+    }
 
-  searchBooks = (match, maxResults = 20) => {
-    BooksAPI.search(match, maxResults).then((books) => {
-      this.setState({ books: books })
-    })
-  }
+    handleUpdate = (book, shelf) => {
+      BooksAPI.update(book, shelf).then((book) => {
+        this.setState(state => ({
+          books: state.books.concat([book])
+        }))
+      })
+    }
 
-  changeShelf = (id, value) => {
-    console.log('id in App.js changeShelf', id);
-    console.log('value in App.js changeShelf', value);
+    changeShelf = (id, shelf) => {
+      let books = this.state.books.concat(this.state.newBooks);
+      books = books.map((book) => {
+        if (book.id === id) {
+          book.shelf = shelf;
+          this.handleUpdate(book, book.shelf);
+          console.log(book);
+        }
+        this.setState({ books: books });
 
-    let books = this.state.books;
-    books = books.map((book) => {
-      if(book.id === id){
-        book.shelf = value;
-        console.log(book);
-      }
-      this.setState({ books: books });
-    })
-  }
+      })
+    }
 
-  render() {
-    return (
-      <div className="app">
-        <Route exact path="/" render={() => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
+    render() {
+      return (
+        <div className="app">
+          <Route exact path="/" render={() => (
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
+                <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === 'currentlyReading')} changeShelf={this.changeShelf} />
+                <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === 'wantToRead')} changeShelf={this.changeShelf} />
+                <Read readBooks={this.state.books.filter((book) => book.shelf === 'read')} changeShelf={this.changeShelf} />
+              </div>
             </div>
+          )} />
+          <Route path="/search" render={() => (
             <div className="list-books-content">
-              <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === 'currentlyReading')} changeShelf={this.changeShelf} />
-              <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === 'wantToRead')} changeShelf={this.changeShelf} />
-              <Read readBooks={this.state.books.filter((book) => book.shelf === 'read')} changeShelf={this.changeShelf} />
+              <SearchBooks 
+                books={this.state.books}
+                newBooks={this.state.newBooks} 
+                searchBooks={this.searchBooks}
+                changeShelf={this.changeShelf}/>
             </div>
-          </div>
-        )} />
-        <Route path="/search" render={() => (
-          <div className="list-books-content">
-            <SearchBooks 
-              books={this.state.books} 
-              searchBooks={this.searchBooks}
-              changeShelf={this.changeShelf} />
-          </div>
-        )}/> 
-        <Link 
-            to="/search"
-            className="open-search"
-            >Add a book
-        </Link>
-      </div>
-    )//return
-  }//render
+          )}/> 
+          <Link 
+              to="/search"
+              className="open-search"
+              >Add a book
+          </Link>
+        </div>
+      )//return
+    }//render
 }//BooksApp
 
 export default BooksApp

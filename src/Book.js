@@ -3,10 +3,10 @@ import React from 'react';
 class Book extends React.Component {
 
     handleSubmitShelf = (e) => {
-        let value = e.target.value;
+        let shelf = e.target.value;
         let id  = this.props.bookId;
 
-        this.props.submitShelf(id, value);
+        this.props.submitShelf(id, shelf);
     }
 
     render() {

@@ -1,29 +1,38 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-//import escapeRegExp from 'escape-string-regexp';
-//import sortBy from 'sort-by';
+import sortBy from 'sort-by';
 import Book from './Book';
 
 class SearchBooks extends React.Component {
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        newBooks: PropTypes.array.isRequired,
+        searchBooks: PropTypes.func.isRequired,
+        changeShelf: PropTypes.func.isRequired,
+        handleChangeShelf: PropTypes.func.isRequired,
+        handleSearch: PropTypes.func.isRequired
+    }
 
     state = {
         searchTerm: ''
     }
 
-    handleChangeShelf = (id, value) => { 
-        this.props.changeShelf(id, value);
+    handleChangeShelf = (id, shelf) => { 
+        this.props.changeShelf(id, shelf);
     }
 
     handleSearch = (searchTerm) => {
-        //const match = new RegExp(escapeRegExp(this.state.searchTerm), 'i');
-        this.setState({ searchTerm: searchTerm })
+        this.setState({ searchTerm: searchTerm.trim() })
         this.props.searchBooks(searchTerm);
     }
 
     render() {
-        let searchedBooks = this.props.books;
-        if (this.props.books) {
+        let searchedBooks = this.props.newBooks;
+
+        if (searchedBooks) {
             console.log('Props in SearchBooks', searchedBooks);
+            searchedBooks.sort(sortBy('title'));
         }
 
         return (
@@ -38,7 +47,7 @@ class SearchBooks extends React.Component {
                         <input 
                         type="text" 
                         placeholder="Search by title or author" 
-                        value={this.state.searchTerm}
+                        value={ this.state.searchTerm || ''}
                         onChange={(e) => this.handleSearch(e.target.value)}/>
                     </div>
                 </div>
