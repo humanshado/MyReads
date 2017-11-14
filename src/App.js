@@ -29,6 +29,7 @@ class BooksApp extends React.Component {
         })
     }
 
+    // Used some code from this stackoverflow page: https://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
     makeUnique = (books) => {
       let seen = new Set();
       return books.filter(book => {
