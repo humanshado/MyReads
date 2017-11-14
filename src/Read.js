@@ -16,9 +16,7 @@ class Read extends React.Component {
 
     render() {
         let readBooks = this.props.readBooks;
-        if (readBooks) {
-            console.log('Props in Read', readBooks);
-        }
+        
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>

@@ -16,9 +16,7 @@ class WantToRead extends React.Component {
 
     render() {
         let wantBooks = this.props.wantBooks;
-        if (wantBooks) {
-            console.log('Props in WantToRead', wantBooks);
-        }
+        
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Want to Read</h2>

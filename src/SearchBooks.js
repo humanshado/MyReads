@@ -6,7 +6,6 @@ import Book from './Book';
 
 class SearchBooks extends React.Component {
     static propTypes = {
-        books: PropTypes.array.isRequired,
         newBooks: PropTypes.array.isRequired,
         searchBooks: PropTypes.func.isRequired,
         changeShelf: PropTypes.func.isRequired,
@@ -31,7 +30,6 @@ class SearchBooks extends React.Component {
         let searchedBooks = this.props.newBooks;
 
         if (searchedBooks) {
-            console.log('Props in SearchBooks', searchedBooks);
             searchedBooks.sort(sortBy('title'));
         }
 
@@ -47,7 +45,7 @@ class SearchBooks extends React.Component {
                         <input 
                         type="text" 
                         placeholder="Search by title or author" 
-                        value={ this.state.searchTerm || ''}
+                        value={ this.state.searchTerm }
                         onChange={(e) => this.handleSearch(e.target.value)}/>
                     </div>
                 </div>

@@ -15,9 +15,6 @@ class CurrentReading extends React.Component{
     
     render(){
         let currentBooks = this.props.currentBooks;
-        if(currentBooks){
-            console.log('Props in CurrentReading ', currentBooks);
-        }
         return(
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>

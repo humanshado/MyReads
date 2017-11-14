@@ -18,7 +18,6 @@ class BooksApp extends React.Component {
       changeShelf: PropTypes.func.isRequired
     }
 
-
     state = {
       books: [],
       newBooks: []
@@ -41,8 +40,6 @@ class BooksApp extends React.Component {
       let newBooks = [];
       BooksAPI.search(searchTerm, maxResults).then((books) => {
         newBooks = this.makeUnique(books);
-        console.log('newBooks in SearchBooks ', newBooks);
-    
         this.setState({ newBooks: newBooks });
       })
     }
@@ -77,16 +74,15 @@ class BooksApp extends React.Component {
                 <h1>MyReads</h1>
               </div>
               <div className="list-books-content">
-                <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === 'currentlyReading')} changeShelf={this.changeShelf} />
-                <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === 'wantToRead')} changeShelf={this.changeShelf} />
-                <Read readBooks={this.state.books.filter((book) => book.shelf === 'read')} changeShelf={this.changeShelf} />
+                <CurrentReading currentBooks={this.state.books.filter((book) => book.shelf === "currentlyReading")} changeShelf={this.changeShelf} />
+                <WantToRead wantBooks={this.state.books.filter((book) => book.shelf === "wantToRead")} changeShelf={this.changeShelf} />
+                <Read readBooks={this.state.books.filter((book) => book.shelf === "read")} changeShelf={this.changeShelf} />
               </div>
             </div>
           )} />
           <Route path="/search" render={() => (
             <div className="list-books-content">
               <SearchBooks 
-                books={this.state.books}
                 newBooks={this.state.newBooks} 
                 searchBooks={this.searchBooks}
                 changeShelf={this.changeShelf}/>
