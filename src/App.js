@@ -18,11 +18,15 @@ class BooksApp extends React.Component {
       changeShelf: PropTypes.func.isRequired
     }
 
-    state = {
-      books: [],
-      newBooks: []
-    }
+    constructor(props){
+      super(props);
 
+      this.state = {
+        books: [],
+        newBooks: []
+      }
+    }
+  
     componentDidMount = () => {
         BooksAPI.getAll().then((books) => {
           this.setState({ books: books})
@@ -38,12 +42,29 @@ class BooksApp extends React.Component {
   }
 
     searchBooks = (searchTerm, maxResults = 20) => {
-      let newBooks = [];
-      BooksAPI.search(searchTerm, maxResults).then((books) => {
-        newBooks = this.makeUnique(books);
-        this.setState({ newBooks: newBooks });
-      })
-    }
+      let newBooks = this.state.newBooks;
+      let books = this.state.books;
+      
+      BooksAPI.search(searchTerm, maxResults).then((returnedBooks) => {
+        newBooks = this.makeUnique(returnedBooks);
+        console.log('books in state ', books);
+        console.log('fresh books searched ', newBooks);
+
+        newBooks.map((newBook) => {
+          for (let userBook of books) {
+            if(newBook.id === userBook.id){
+              newBook.shelf = userBook.shelf;
+            }
+          }//for loop
+        })//map
+
+        this.setState((state) => ({
+          newBooks: newBooks,
+          books: books.concat(newBooks)
+        }));
+
+      })//.then
+    }//searchBooks 
 
     handleUpdate = (book, shelf) => {
       BooksAPI.update(book, shelf).then((book) => {

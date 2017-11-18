@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import sortBy from 'sort-by';
 import Book from './Book';
+import { Debounce } from 'react-throttle';
 
 class SearchBooks extends React.Component {
     static propTypes = {
@@ -41,12 +42,15 @@ class SearchBooks extends React.Component {
                         className="close-search"
                         >Close
                       </Link>
+                    
                     <div className="search-books-input-wrapper">
-                        <input 
-                        type="text" 
-                        placeholder="Search by title or author" 
-                        value={ this.state.searchTerm }
-                        onChange={(e) => this.handleSearch(e.target.value)}/>
+                       
+                            <input
+                                type="text"
+                                placeholder="Search by title or author"
+                                value={this.state.searchTerm}
+                                onChange={(e) => this.handleSearch(e.target.value)} />
+                       
                     </div>
                 </div>
                 <div className="search-books-results">
